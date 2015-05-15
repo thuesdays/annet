@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block content %}
+
+    <div>
+        <div class="container">
+            <div style="margin: 20px;">
+                {% for i in images %}
+                    <div style="position:relative;width: 365px;height: 265px; float: left;" class="gallery-item">
+                        <img width="350px" height="250px" src="{{ media_url }}{{ i.image }}" alt="gallery 1">
+
+                        <div class="overlay">
+                            <a href="{{ media_url }}{{ i.image }}" data-rel="lightbox" class="fa fa-arrows-alt"></a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

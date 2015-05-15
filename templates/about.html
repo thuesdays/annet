@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+    {% load staticfiles %}
+{% block content %}
+    <section id="content">
+        <div class="pad-1">
+            <div class="page2-row1">
+                <div class="col-4">
+                    <h2 class="h2 p2">Моя деятельность:</h2>
+                    {% if personal %}
+                        <div class="wrap">
+                        <img src="{{ media_url }}{{ personal.photo.name }}" alt="" class="img-border img-indent">
+                    {% endif %}
+                    <div class="extra-wrap">
+                        {% for a in about %}
+                            {% if a.public %}
+                                <p class="p4" style="color:#D4D4D4;"><i>{{ a.text|safe }}</i></p>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    </div>
+                </div>
+                <div class="col-5">
+                    <h3 class="h3 p2">Достижения:</h3>
+                    <ul class="list-2">
+                        {% for award in awards %}
+                            {% if award.public %}
+                                <li><span><a href="{{ media_url }}{{ award.photo.name }}">{{ award.name }}"</a> </span>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+
+{% endblock %}

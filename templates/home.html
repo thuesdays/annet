@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block content %}
+    <script type="text/javascript">
+        $(function () {
+            SyntaxHighlighter.all();
+        });
+        $(window).load(function () {
+            $('#carousel').flexslider({
+                animation: "slide",
+                controlNav: false,
+                animationLoop: false,
+                slideshow: false,
+                itemWidth: 210,
+                itemMargin: 5,
+                asNavFor: '#slider'
+            });
+
+            $('#slider').flexslider({
+                animation: "slide",
+                controlNav: false,
+                animationLoop: false,
+                slideshow: false,
+                sync: "#carousel",
+                start: function (slider) {
+                    $('body').removeClass('loading');
+                }
+            });
+        });
+    </script>
+     <script type="text/javascript" src="{% static "js/shCore.js" %}"></script>
+        <script type="text/javascript" src="{% static "js/shBrushXml.js"%}"></script>
+    <script type="text/javascript" src="{% static "js/shBrushJScript.js"%}"></script>
+
+
+    <section id="content">
+        <div id="slider" class="flexslider">
+            <ul class="slides">
+                {% for slide in slides %}
+                    {% if slide.public %}
+                        <li><img src="{{ media_url }}{{ slide.slide.name }}"></li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+        <div id="carousel" class="flexslider">
+            <ul class="slides">
+
+                {% for img in images %}
+                    {% if img.public %}
+                        <li><img src="{{ media_url }}{{ img.image.name }}"/></li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+
+
+        <div class="page1-row1 pad-1">
+            <div class="col-1">
+                {% block kind_work %}
+                    <h3 class="h3 p2">Разновидности работ:</h3>
+                    <ul class="list-1">
+                        {% for type_work in type_works %}
+                            {% if type_work.public %}
+                                <li><a href="{{ type_work.link }}">{{ type_work.type_work }}</a></li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                {% endblock %}
+                {% block contacts_home %}
+                    <div class="col-3">
+                        <h2 class="h2 p2">Контакты</h2>
+                        {% if contacts %}
+                            <div class="adr">
+                            <p class="p3">
+                                <strong>Моб.:</strong> <span class="clr-1">{{ contacts.mobile1 }}</span><br>
+                                {% if contacts.mobile2 %}
+                                    <strong>Моб2.:</strong> <span class="clr-1">{{ contacts.mobile2 }}</span>
+                                    <br>
+                                {% endif %}
+                                <strong>Skype:</strong> <span class="clr-1">{{ contacts.skype }}</span><br>
+
+                            <p class="clr-1">{{ contacts.city }}<br>
+                                {{ contacts.adress1 }}
+                                {% if contacts.adress2 %}
+                                    <br>{{ contacts.adress2 }}
+                                {% endif %}
+                            </p>
+                        {% endif %}
+                        </div>
+                    </div>
+                {% endblock %}
+            </div>
+            {% block short_by_me %}
+                <div class="col-2">
+                    <h2 class="h2 p2">Коротко обо мне:</h2>
+                    {% for text in short_by_me %}
+                        {% if text.public %}
+                            <p class="p1">
+                                {{ text.text|safe }}
+                            </p>
+                        {% endif %}
+                    {% endfor %}
+
+                    <a href="about.html" class="link-1 link-1-pad bot-1">Больше</a>
+
+                    <div class="clear"></div>
+
+                </div>
+            {% endblock %}
+            <div class="col-3">
+                <h2 class="h2 p2">Группа</h2>
+                <script type="text/javascript" src="http://vk.com/js/api/openapi.js?105"></script>
+                <div id="vk_groups"></div>
+                <script type="text/javascript">
+                    VK.Widgets.Group("vk_groups", {
+                        mode: 0,
+                        width: "210",
+                        height: "400",
+                        color1: 'FFFFFF',
+                        color2: '2B587A',
+                        color3: '5B7FA6'
+                    }, 49797608);
+                </script>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

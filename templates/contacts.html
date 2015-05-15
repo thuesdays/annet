@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+    {% load staticfiles %}
+{% block content %}
+
+    <section id="content">
+        <div class="pad-1">
+            <div class="page6-row1">
+                <div class="col-14">
+                    <h2 class="h2">Контакты:</h2>
+                    <dl>
+                        {% if personal %}
+                            <dt class="clr-1"><strong>{{ personal.city }}</strong><br>
+                                {{ personal.adress1 }}
+                                {% if personal.mobile2 %}
+                                    <br>{{ personal.mobile2 }}
+                                {% endif %}
+                            </dt>
+                            <dd class="clr-1"><span>Моб.1:</span>{{ personal.mobile1 }}</dd><br>
+                            {% if personal.mobile2 %}
+                                <dd class="clr-1"><span>Моб.2:</span>{{ personal.mobile2 }}</dd><br>
+                            {% endif %}
+                            <dd class="clr-1"><span>Skype:</span>{{ personal.skype }}</dd><br>
+                            <dd class="clr-1"><span>Группа:</span>{{ personal.group }}</dd><br>
+                        {% endif %}
+                    </dl>
+                </div>
+                <div class="col-15">
+                    <h2 class="h2 p2">Карта:</h2>
+                    <div id="MyGmaps" style="width:600px;height:460px;border:1px solid #CECECE;"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

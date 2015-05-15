@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+ {% load staticfiles %}
+
+{% block content %}
+    <script>
+        $(function () {
+          $('#dp3').datepicker({format: 'yyyy-mm-dd'});
+        });
+        $(function () {
+            $('#timepicker1').timepicker();
+        });
+    </script>
+    <script type="text/javascript">
+        $('#timepicker1').timepicker();
+    </script>
+    <section id="content">
+        <div class="page3-row1 pad-2 tabs">
+        {% for s in signup %}
+            {% if s.public %}
+              <p style="color:#bbb">{{ s.text }}</p>
+            {% endif %}
+        {% endfor %}
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 col-md-offset-3">
+                        <div class="well well-sm">
+                            <form class="form-horizontal" action="/" method="post">{% csrf_token %}
+                                <fieldset>
+                                    <legend class="text-center" style="font-size: 18px;margin: 20px 0;">Заполните
+                                        пожалуйста форму:
+                                    </legend>
+
+                                    <!-- Name input-->
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label la" for="name">Имя</label>
+
+                                        <div class="col-md-9">
+                                            <input id="name" name="name" type="text" placeholder=""
+                                                   class="form-control" required>
+                                        </div>
+                                    </div>
+
+                                    <!-- Second name input-->
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label la" for="secname">Фамилия</label>
+
+                                        <div class="col-md-9">
+                                            <input id="secname" name="secname" type="text" placeholder=""
+                                                   class="form-control">
+                                        </div>
+                                    </div>
+
+                                    <!-- Email input-->
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label la" for="email">E-mail</label>
+
+                                        <div class="col-md-9">
+                                            <input id="email" name="email" type="text" placeholder="Ваш email"
+                                                   class="form-control">
+                                        </div>
+                                    </div>
+
+                                    <!-- Mobile input-->
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label la" for="mobile">Моб.</label>
+
+                                        <div class="col-md-9">
+                                            <input id="mobile" name="mobile" type="text" placeholder="Ваш мобильный"
+                                                   class="form-control" required>
+                                        </div>
+                                    </div>
+
+                                    <!-- Type input-->
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label la">Тип работы</label>
+
+                                        <div class="col-md-9">
+                                            <select name="type_work" class="form-control si">
+                                                {% for type_work in type_works %}
+                                                    {% if type_work.public %}
+                                                <option>{{type_work.type_work}}</option>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label la">Желаемый день:</label>
+
+                                        <div class="col-md-9">
+                                            <input name="date" id="dp3" type="text" class="form-control si " placeholder=""
+                                                   autocomplete="off" title="Date" >
+                                            <span class="add-on"></span>
+                                        </div>
+
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label la">Желаемый время:</label>
+
+                                        <div class="col-md-9">
+                                            <input name="time" id="timepicker1" type="text" class="form-control si"
+                                                   autocomplete="off"
+                                                   title="Time" >
+                                            <span class="add-on"></span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Message body -->
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label la" for="message">Коментарий</label>
+
+                                        <div class="col-md-9">
+                                            <textarea class="form-control" id="message" name="message"
+                                                      placeholder="Введите здесь свой коментарий" rows="5"></textarea>
+                                        </div>
+                                    </div>
+
+
+                                    <!-- Form actions -->
+                                    <div class="form-group">
+                                        <div class="col-md-12 text-right">
+                                            <button type="submit" class="btn btn-primary btn-lg">Записаться</button>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

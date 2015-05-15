@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+ {% load staticfiles %}
+
+{% block content %}
+
+    <section id="content">
+        <div class="pad-1">
+            <div class="page4-row1">
+
+                {% block provide_services %}
+                    <div class="col-10">
+                        <h2 class="h2 p2">Предоставляю услуги:</h2>
+                        {% for provide_service in provide_services %}
+                            {% if provide_service.public %}
+                                <p>{{ provide_service.text|safe }}</p><br>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                {% endblock %}
+
+                {% block price %}
+                    <div class="col-11">
+                        <h2 class="h2 p2">Цены:</h2>
+                        <table class="features-table">
+                            <thead>
+                            <tr>
+                                <td class="green">Услуга</td>
+                                <td class="green">Цена</td>
+
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for type_work in type_works %}
+                                {% if type_work.public %}
+                                    <tr>
+                                        <td class="grey">{{ type_work.type_work }}</td>
+                                        <td class="grey">{{ type_work.price }} грн</td>
+                                    </tr>
+                                {% endif %}
+                            {% endfor %}
+
+                            </tbody>
+                        </table>
+
+                    </div>
+                {% endblock %}
+
+
+            </div>
+        </div>
+    </section>
+{% endblock %}

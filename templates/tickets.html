@@ -1,0 +1,278 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block content %}
+    <style>
+        .responstable {
+            margin: 1em 0;
+            width: 100%;
+            overflow: hidden;
+            background: #FFF;
+            color: #024457;
+            border-radius: 10px;
+            border: 1px solid #167F92;
+        }
+
+        .responstable tr {
+            border: 1px solid #D9E4E6;
+        }
+
+        .responstable tr:nth-child(odd) {
+            background-color: #EAF3F3;
+        }
+
+        .responstable th {
+            display: none;
+            border: 1px solid #FFF;
+            background-color: #167F92;
+            color: #FFF;
+            padding: 1em;
+        }
+
+        .responstable th:first-child {
+            display: table-cell;
+            text-align: center;
+        }
+
+        .responstable th:nth-child(2) {
+            display: table-cell;
+        }
+
+        .responstable th:nth-child(2) span {
+            display: none;
+        }
+
+        .responstable th:nth-child(2):after {
+            content: attr(data-th);
+        }
+
+        @media (min-width: 480px) {
+            .responstable th:nth-child(2) span {
+                display: block;
+            }
+
+            .responstable th:nth-child(2):after {
+                display: none;
+            }
+        }
+
+        .responstable td {
+            display: block;
+            word-wrap: break-word;
+            max-width: 7em;
+            max-height: 20px;
+        }
+
+        .responstable td:first-child {
+            display: table-cell;
+            text-align: center;
+            border-right: 1px solid #D9E4E6;
+        }
+
+        @media (min-width: 480px) {
+            .responstable td {
+                border: 1px solid #D9E4E6;
+            }
+        }
+
+        .responstable th, .responstable td {
+            text-align: left;
+            margin: .5em 1em;
+        }
+
+        @media (min-width: 480px) {
+            .responstable th, .responstable td {
+                display: table-cell;
+                padding: 1em;
+            }
+        }
+
+        body {
+            padding: 0 2em;
+            font-family: Arial, sans-serif;
+            color: #024457;
+            background: #f2f2f2;
+        }
+
+        h1 {
+            font-family: Verdana;
+            font-weight: normal;
+            color: #024457;
+        }
+
+        h1 span {
+            color: #167F92;
+        }
+
+    .btn_div {
+        position: relative;
+        height: 20px;
+        width: 220px;
+    }
+
+
+    </style>
+    <script src=//cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.js"></script>
+    <script>
+        // using jQuery
+        function getCookie(name) {
+            var cookieValue = null;
+            if (document.cookie && document.cookie != '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = jQuery.trim(cookies[i]);
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        var csrftoken = getCookie('csrftoken');
+        function csrfSafeMethod(method) {
+            // these HTTP methods do not require CSRF protection
+            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+        }
+        $.ajaxSetup({
+            beforeSend: function (xhr, settings) {
+                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
+            }
+        });
+        $(document).ready(function () {
+            $("button[class='btn btn-small btn-success']").on('click', function (e) {
+                data = {};
+                data['pk'] = $(this).closest('td').parent()[0].childNodes[1].defaultValue;
+                $($(this).closest('td').parent()[0].childNodes).each(function (index) {
+                    if ($(this).is('td')) {
+                        if (index <= 17) {
+                            var val = $(this).children().val();
+                            $(this).children().remove();
+                            $(this).html(val);
+                            data[index] = (val);
+                        }
+                        else if (index == 19) {
+                            if ($(this).children().is('select')) {
+                            }
+                            var val1 = $(this).find("option:selected").text();
+                            data[index] = (val1);
+                            $(this).children().remove();
+                            if (val1 == 'Записан(а)') {
+                                $(this).html('<span class="label label-success">' + val1 + '</span>');
+                            }
+                            if (val1 == 'Отменено') {
+                                $(this).html('<span class="label label-important">' + val1 + '</span>');
+                            }
+                            if (val1 == 'Абонент не отвечает') {
+                                $(this).html('<span class="label label-warning">' + val1 + '</span>');
+                            }
+                            if (val1 == 'Открыта') {
+                                $(this).html('<span class="label">' + val1 + '</span>');
+                            }
+                        }
+                    }
+                });
+                $.ajax({
+                    type: "POST",
+                    url: $(document).attr("href"),
+                    data: data,
+                    dataType: "html"
+
+
+                });
+            });
+            $("button[class='btn btn-small btn-primary']").on('click', function (e) {
+                $($(this).closest('td').parent()[0].childNodes).each(function (index) {
+                    if ($(this).is('td')) {
+                        var val = $(this).text();
+                        if (index < 17) {
+                            if ($(this).has('input').length) {
+                            }
+                            else {
+                                $(this).empty().html('<input type="text" style="width:150px;" value="' + val + '" />');
+                            }
+                        }
+                        else if (index == 17) {
+                            $(this).empty().html('<textarea type="text" style="width:150px;">' + val + '</textarea>');
+                        }
+                        else if (index == 19) {
+                            if ($(this).children().is('select')) {
+                            } else {
+                                var val1 = $(this).children().text();
+                                var op = '<option selected>' + val1 + '</option>';
+                                var a = [];
+                                {% for s in status %}
+                                    a.push('{{ s.name }}');
+                                {% endfor %}
+                                el = a.indexOf(val1);
+                                a.splice(el, 1);
+                                for (var i = 0; i < a.length; i++) {
+                                    op = op + '<option>' + a[i] + '</option>';
+                                }
+                                $(this).empty().html('<select style="width:150px;">' + op + '</select>');
+                            }
+                        }
+                    }
+                })
+            });
+        })
+        ;
+    </script>
+
+
+    <table class="responstable">
+        <thead>
+        <tr>
+
+            <th>Имя</th>
+            <th>Фамилия</th>
+            <th>Email</th>
+            <th>Телефон</th>
+            <th>Тип работы</th>
+            <th>Дата</th>
+            <th>Время</th>
+            <th>Коментарий</th>
+            <th>Статус</th>
+            <th>Действия</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for t in tickets %}
+            <tr>
+                <input type="hidden" value="{{ t.pk }}">
+                <td class="center">{{ t.first_name }}</td>
+                <td class="center">{{ t.last_name }}</td>
+                <td class="center">{{ t.email }}</td>
+                <td class="center">{{ t.phone }}</td>
+                <td class="center">{{ t.type_work.type_work }}</td>
+                <td class="center">{{ t.date.year }}-{{ t.date.month }}-{{ t.date.day }}</td>
+                <td class="center">{{ t.time.hour }}:{{ t.time.minute }}</td>
+                <td class="center">{{ t.description }}</td>
+                <td class="center">
+                    {% if t.status.name == 'Записан(а)' %}
+                        <span style="color:#4cae4c">{{ t.status.name }}</span>
+                    {% endif %}
+                    {% if t.status.name == 'Отменено' %}
+                        <span style="color: #d9534f">{{ t.status.name }}</span>
+                    {% endif %}
+                    {% if t.status.name == 'Абонент не отвечает' %}
+                        <span style="color:#eea236">{{ t.status.name }}</span>
+                    {% endif %}
+                    {% if t.status.name == 'Открыта' %}
+                        <span style="color:#47a447">{{ t.status.name }}</span>
+                    {% endif %}
+                </td>
+                <td class="center btn_div">
+                    <button class="btn btn-small btn-primary">Edit</button>
+                    <button class="btn btn-small btn-success">Save</button>
+                    <button class="btn btn-small btn-danger">Delete</button>
+                </td>
+            </tr>
+        {% endfor %}
+
+        </tbody>
+    </table>
+
+{% endblock %}

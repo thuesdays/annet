@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Наращивание ногтей</title>
+    <meta name="Keywords" content="Ногти,наращивание,мастер">
+    <meta name="Description" content="Сайт мастера по наращиванию ногтей">
+    <meta name="author" content="Kovganko">
+    <meta http-equiv="content-language" content="ru">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    {% load staticfiles %}
+
+    <link href="{% static "images/favicon.ico" %}" type="image/x-icon" rel="shortcut icon"/>
+    <link rel="stylesheet" type="text/css" media="screen" href="{% static "css/bootstrap.min.css" %}">
+    <link rel="stylesheet" type="text/css" media="screen" href="{% static "css/menu.css" %}">
+    <link rel="stylesheet" type="text/css" media="screen" href="{% static "css/style.css" %}">
+    <link rel="stylesheet" type="text/css" media="screen" href="{% static "css/reset.css" %}">
+    <link href='http://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="{% static "css/flexslider.css" %}"/>
+
+    <script src="{% static "js/jquery-1.7.min.js" %}"></script>
+    <script src="{% static "js/bootstrap.min.js" %}"></script>
+    <script src="{% static "js/bootstrap-datepicker.js" %}"></script>
+    <script src="{% static "js/bootstrap-timepicker.min.js" %}"></script>
+    <script src="{% static "js/jquery.easing.1.3.js" %}"></script>
+    <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+    <script src="{% static "js/maps.js" %}"></script>
+    <script src="{% static "js/jquery.jcarousel.min.js" %}"></script>
+    <script src="{% static "js/jquery.flexslider-min.js" %}"></script>
+
+</head>
+
+<body onload="LoadGmaps()" class="gradient2">
+<div class="container-fluid">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse"
+                data-target="#bs-example-navbar-collapse-1">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a style="margin-left: 15px;" class="navbar-brand" href="/">Annet Studio</a>
+    </div>
+    <ul id="menu">
+        <li>
+            <a href="/">Главная <b class="caret"></b>
+                {% if user.is_authenticated %}
+                    <span class="badge">{{ tickets.count }}</span>
+                {% endif %}
+            </a>
+            <ul>
+                <li><a href="/about">Обо мне</a></li>
+                {% if user.is_authenticated %}
+                    <li class="divider"></li>
+                    <li>
+                        <a tabindex="-1" href="#">Клиенты</a>
+                        <ul>
+                            <li><a tabindex="-1" href="/clients">Клиенты</a></li>
+                            <li><a href="/tickets">Заявки
+                                <span class="badge pull-right">{{ tickets.count }}</span>
+                            </a></li>
+                            <li><a href="/stats">Статистика</a></li>
+                            <li><a href="/map">Карта</a></li>
+                            <li class="divider"></li>
+                            <li><a href="/add_client">Добавить клиента</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="/logout">Выйти</a></li>
+                {% endif %}
+            </ul>
+        </li>
+        <li>
+            <a href="#">Галерея</a>
+        </li>
+        <li><a href="#">Услуги<b class="caret"></b></a>
+            <ul>
+                <li><a href="/services">Прайс</a></li>
+                <li><a href="/signup">Записатся</a></li>
+            </ul>
+        </li>
+        <li><a href="#">Полезное<b class="caret"></b></a>
+            <ul class="dropdown-menu">
+                <li><a href="/posts">Статьи</a></li>
+                <li><a href="/reviewers">Отзывы</a></li>
+                {% if user.is_authenticated %}
+                    <li class="divider"></li>
+                    <li><a href="/add_post">Добавить статью</a></li>
+                {% endif %}
+            </ul>
+        </li>
+        <li><a href="/contacts">Контакты</a></li>
+    </ul>
+</div>
+{% block content %}
+
+{% endblock %}
+<footer><span><strong>© 2013-2015 Annet-Studio</strong></span></footer>
+</body>
+</html>
+
+
