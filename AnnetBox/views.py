@@ -1,4 +1,6 @@
 # -*- coding: UTF-8 -*-
+import calendar
+from datetime import datetime
 from django.contrib import auth
 from django.contrib.auth import authenticate
 from django.shortcuts import render_to_response
@@ -120,7 +122,15 @@ def portfolio(request):
 
 
 def stats(requset):
-    return render_to_response("stats.html")
+    now = datetime.now()
+    coumt_days = calendar.monthrange(now.year, now.month)[1]
+    days = [i for i in range(1, coumt_days+1)]
+    result = []
+    result_t = []
+    for i in range(1, coumt_days+1, 1):
+        result.append(Ticket.objects.filter(date=datetime(now.year, now.month, i), status__name='Выполнено').count())
+        result_t.append(Ticket.objects.filter(date=datetime(now.year, now.month, i)).count())
+    return render_to_response("stats.html", dict(tickets=result, days=days, result_t=result_t))
 
 
 def contacts(request):

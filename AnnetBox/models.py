@@ -181,43 +181,6 @@ class TypeWork(models.Model):
         return '%s' % (self.type_work)
 
 
-class Client(models.Model):
-
-    GOLOSEEVSKIY = 'GO'
-    SVYATOSHUN = 'SV'
-    SOLOMEN = 'SO'
-    OBOLON = 'OB'
-    PODOL = 'PO'
-    PECHERSK = 'PC'
-    SHEVCHEN = 'SH'
-    DARNIC = 'DR'
-    DESNYAN = 'DS'
-    DNEPROV = 'DN'
-
-    SELECT_AREA = ((GOLOSEEVSKIY, 'Голосеевский'),
-                   (SVYATOSHUN, 'Святошинский'),
-                   (SOLOMEN, 'Соломенский'),
-                   (OBOLON, 'Оболонский'),
-                   (PODOL, 'Подольский'),
-                   (PECHERSK, 'Печерский'),
-                   (SHEVCHEN, 'Шевченковский'),
-                   (DARNIC, 'Дарницкий'),
-                   (DESNYAN, 'Днепровский'),
-                   (DNEPROV, 'Деснянский'))
-
-    first_name = models.CharField(max_length=20)
-    last_name = models.CharField(max_length=20)
-    email = models.EmailField(max_length=40)
-    phone = models.CharField(max_length=20)
-    area = models.CharField(max_length=30, choices=SELECT_AREA)
-    type_work = models.ForeignKey(TypeWork, null=True, blank=True)
-    first_visit = models.DateTimeField()
-    next_visit = models.DateTimeField()
-    description = models.TextField()
-
-    def __unicode__(self):
-        return self.first_name + ' ' + self.last_name
-
 class Award(models.Model):
     name = models.CharField(max_length=150)
     link = models.CharField(max_length=100, null=True, blank=True)
@@ -247,6 +210,7 @@ def auto_delete_file_on_delete(sender, instance, **kwargs):
     if instance.image:
         if os.path.isfile(instance.image.path):
             os.remove(instance.image.path)
+
 
 class TicketStatus(models.Model):
     name = models.CharField(max_length=30)
